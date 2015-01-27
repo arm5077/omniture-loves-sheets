@@ -1,0 +1,25 @@
+{
+  "name": "omniture-loves-sheets",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arm5077/omniture-loves-sheets.git"
+  },
+  "author": "Andrew McGill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arm5077/omniture-loves-sheets/issues"
+  },
+  "homepage": "https://github.com/arm5077/omniture-loves-sheets",
+  "dependencies": {
+    "cron": "^1.0.6",
+    "edit-google-spreadsheet": "^0.2.16",
+    "express": "^4.11.1",
+    "nomniture": "~0.3.7"
+  }
+}

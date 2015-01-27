@@ -1,0 +1,23 @@
+{
+  "reportDescription": {
+    "reportSuiteID": "atlanticnationaljournal2013prod",
+    "dateFrom": "2013-01-01",
+    "dateTo":"2015-02-01",
+    "metrics": [
+      {
+        "id": "pageViews"
+      }
+    ],
+    "elements": [
+      {
+        "id": "page",
+        "top": 1,
+        "search": {
+          "type": "OR",
+          "keywords": ["how many times will obama"]
+        }
+      }
+    ]
+  }
+}
+
