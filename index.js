@@ -95,7 +95,7 @@ function update(){
 
 						var yearAgo = new Date();
 		 				yearAgo.setYear( yearAgo.getFullYear() - 1 );
-
+						
 						r.request("Report.QueueRanked", {
 							"reportDescription": {
 						    "reportSuiteID": process.env.REPORTSUITEID,
@@ -105,10 +105,10 @@ function update(){
 						    "elements": [
 						      {
 						        "id": "page",
-						        "top": 1,
+						        "top": 5,
 						        "search": {
 						          "type": "OR",
-						          "keywords": [graphic["Finished headline"]]
+						          "keywords": [graphic["Finished headline"].replace(/'/g, '*')]
 						        }
 						      }
 						    ]
@@ -119,20 +119,21 @@ function update(){
 							console.log("Found stats for " + graphic["Finished headline"] + ": " + response)
 
 							response = JSON.parse(response);
-
 							metrics.forEach(function(metric, subIndex){
-								var column = (fields.indexOf("GET: " + metric.id) + 1).toString();
-								var row = index + 1;
-
 								var exportColumn = {}, exportRow = {};
-								exportColumn[column] = response.report.data[0].counts[subIndex];
-								exportRow[row] = exportColumn;
-
+								response.report.data.forEach(function(datum){
+									var column = (fields.indexOf("GET: " + metric.id) + 1).toString();
+									var row = index + 1;
+									exportColumn[column] = (!exportColumn.hasOwnProperty(column) ? parseInt(datum.counts[subIndex]) : exportColumn[column] + parseInt(datum.counts[subIndex]));
+									console.log("THIS IS THE NUMBER WE'RE DEALING WITH: " + parseInt(datum.counts[subIndex]));
+									exportRow[row] = exportColumn;
+								});
 								console.log("Sending this to spreadsheet (re: " + graphic["Finished headline"] + "): " + JSON.stringify(exportRow));
-
 								spreadsheet.add(exportRow);
 							});
-
+							
+								
+						
 							spreadsheet.send(function(err) {
 								if(err) throw err;
 							});	
