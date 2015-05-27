@@ -4,8 +4,8 @@ var cron = require('cron').CronJob;
 var report = require('nomniture').Report;
 var Spreadsheet = require('edit-google-spreadsheet');
 
-var spreadsheet_username = process.env.SPREADSHEET_USERNAME
-var spreadsheet_password = process.env.SPREADSHEET_PASSWORD
+var spreadsheet_email = process.env.SPREADSHEET_EMAIL;
+var spreadsheet_key = process.env.SPREADSHEET_KEY;
 
 // Thanks to http://stackoverflow.com/questions/3066586/get-string-in-yyyymmdd-format-from-js-date-object for this code
 Date.prototype.yyyymmdd = function() {
@@ -22,15 +22,6 @@ var r = new report(process.env.USERNAME, process.env.SECRET, process.env.SERVER,
 	log:false
 });
 
-/*
-new cron({
-	cronTime: "* * 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 * * *", 
-	onTick: function(){
-		update();
-	}, 
-	start: true
-});
-*/
 
 // Using this until I can figure out what's wrong with cron
 setInterval(update, 60*60*1000);
@@ -51,8 +42,11 @@ function update(){
 			debug: true,
 			spreadsheetName: "Graphics projects",
 			worksheetName: "Projects",
-			username: spreadsheet_username,
-			password: spreadsheet_password
+			oauth: {
+				email: spreadsheet_email,
+				key: spreadsheet_key
+			}
+
 		}, function(err, spreadsheet){
 			if( err ) throw err;
 			spreadsheet.receive(function(err, rows, info) {
